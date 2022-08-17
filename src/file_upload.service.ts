@@ -34,7 +34,17 @@ export class FileUploadService {
         }
     }
 
-    upload = multer({
+  upload = multer({
+              limits: {
+            fileSize: 1000000
+        },
+        fileFilter(req, file, cb) {
+            if (!file.originalname.match(/\.(jpg|jpeg|png|PNG)$/)) {
+                return cb(new Error('Please upload an image'))
+            }
+
+            cb(undefined, true)
+        },
         storage: s3Storage({
             s3: s3,
             Bucket: AWS_S3_BUCKET_NAME,
