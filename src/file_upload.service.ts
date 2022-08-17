@@ -8,7 +8,8 @@ const s3 = new AWS.S3();
 
 @Injectable()
 export class FileUploadService {
-    constructor() {
+  constructor() {
+    
         try {
             if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
                 AWS.config.update({
@@ -35,9 +36,7 @@ export class FileUploadService {
     }
 
   upload = multer({
-              limits: {
-            fileSize: 1000000
-        },
+            
         fileFilter(req, file, cb) {
             if (!file.originalname.match(/\.(jpg|jpeg|png|PNG)$/)) {
                 return cb(new Error('Please upload an image'))
@@ -57,5 +56,8 @@ export class FileUploadService {
                 height: 400,
             },
         }),
+          limits: {
+            fileSize: 1000000
+        },
     }).array('upload', 1);
 }
